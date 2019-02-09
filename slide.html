@@ -1,0 +1,156 @@
+{{- $param := .Get 0 -}}
+{{ $localFolder := ( printf "/static%s" $param ) }}
+{{- $files := readDir $localFolder -}}
+
+<div class="slideshow-container">
+    {{- range $files }}
+    <div class="mySlides fade">
+        <img class="slideshow-image" src="{{ $param }}{{ .Name }}" alt="{{ .Name }}">
+    </div>
+    {{- end }}
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    <div class="slideshow-controls">
+        {{- range $index, $value := $files }}
+        <span class="dot" onclick="currentSlide({{ add $index 1}})"></span>
+        {{- end }}
+    </div>
+</div>
+<div>&nbsp;</div>
+
+<style>
+
+    .slideshow-container {
+        box-sizing: inherit;
+        position: relative;
+        max-width: 40em;
+        height: 20em;
+    }
+
+    .slideshow-controls {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        align-content: space-around;
+
+        display: -webkit-flex; /* Safari */
+        -webkit-flex-wrap: nowrap; /* Safari */
+        -webkit-flex-direction: row; /* Safari */
+        -webkit-justify-content: center; /* Safari */
+        -webkit-align-items: center; /* Safari */
+        -webkit-align-content: space-around; /* Safari */
+    }
+
+    .mySlides {
+        display: none;
+        margin: auto;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .slideshow-image {
+        max-height: 20em;
+    }
+
+    .prev, .next {
+        box-sizing:border-box;
+        cursor: pointer;
+        position: absolute;
+        top: 7em;
+        width: auto;
+        margin-top: 0;
+        padding: 10px;
+        color: #e1e2e1;
+        background-color: #9d9e9f;
+        opacity: 0.4;
+        font-weight: bold;
+        font-size: 1em;
+        transition: 100ms ease;
+        border-radius: 0 0 0 0;
+        text-decoration: none;
+    }
+
+    .next {
+        box-sizing:border-box;
+        right: 0;
+        border-radius: 0 0 0 0;
+    }
+
+    .prev:hover, .next:hover {
+        background-color: #9d9e9f;
+        opacity: 0.5;
+        text-decoration: none;
+    }
+
+    .dot {
+        cursor: pointer;
+        height: 0.8em;
+        width: 0.8em;
+        margin: 0.2em;
+        background-color: #e1e2e1;
+        border-radius: 50%;
+        transition: background-color 100ms ease;
+    }
+
+    .active, .dot:hover {
+        background-color: #9d9e9f;
+    }
+
+    .fade {
+        animation-name: fade;
+        animation-duration: 400ms;
+        animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1); /* or: ease, ease-in, ease-in-out, linear, cubic-bezier(0.25, 0.1, 0.25, 1) */
+        -webkit-animation-name: fade;
+        -webkit-animation-duration: 400ms;
+        -webkit-animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    @-webkit-keyframes fade {
+        from {
+            opacity: 0.4;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fade {
+        from {
+            opacity: 0.4;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+<script>
+
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex-1].style.display = "block";
+        dots[slideIndex-1].className += " active";
+    }
+</script>
